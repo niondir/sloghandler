@@ -1,4 +1,4 @@
-module logrus
+module github.com/niondir/sloghandler/logrus
 
 go 1.21rc4
 
