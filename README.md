@@ -9,6 +9,8 @@ Supported Logging libraries:
 ```go get github.com/niondir/sloghandler/logrus```
 
 ```
-slogger := slog.New(logrusHandler.NewHandler(logrusLogger))
+import "github.com/niondir/sloghandler/logrus/handler"
+
+slogger := slog.New(handler.NewHandler(logrusLogger))
 slogger.Info("hello, Info log")
 ```
