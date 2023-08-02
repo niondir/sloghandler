@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-var _ slog.Handler = &Handler{}
+var _ slog.Handler = &LogrusHandler{}
 
 // Logrus error levels
 const (
@@ -32,7 +32,7 @@ const (
 	TraceLevel = slog.LevelDebug - 1
 )
 
-func SlogLevelToLogrusLevel(level slog.Level) logrus.Level {
+func slogLevelToLogrusLevel(level slog.Level) logrus.Level {
 	if level <= TraceLevel {
 		return logrus.TraceLevel
 	} else if level <= DebugLevel {
@@ -50,30 +50,30 @@ func SlogLevelToLogrusLevel(level slog.Level) logrus.Level {
 	}
 }
 
-type Handler struct {
+type LogrusHandler struct {
 	logger *logrus.Logger
 	groups []string
 	attrs  []slog.Attr
 }
 
-func NewHandler(logger *logrus.Logger) *Handler {
+func New(logger *logrus.Logger) *LogrusHandler {
 	if logger == nil {
 		panic("logger is nil")
 	}
-	return &Handler{
+	return &LogrusHandler{
 		logger: logger,
 	}
 }
 
-func (l *Handler) clone() *Handler {
-	return &Handler{
+func (l *LogrusHandler) clone() *LogrusHandler {
+	return &LogrusHandler{
 		logger: l.logger,
 		groups: slices.Clip(l.groups),
 		attrs:  slices.Clip(l.attrs),
 	}
 }
 
-func (l *Handler) Enabled(ctx context.Context, level slog.Level) bool {
+func (l *LogrusHandler) Enabled(ctx context.Context, level slog.Level) bool {
 	logrusLevel := l.logger.GetLevel()
 	switch logrusLevel {
 	case logrus.TraceLevel:
@@ -96,7 +96,7 @@ func (l *Handler) Enabled(ctx context.Context, level slog.Level) bool {
 
 }
 
-func (l *Handler) Handle(ctx context.Context, r slog.Record) error {
+func (l *LogrusHandler) Handle(ctx context.Context, r slog.Record) error {
 	log := logrus.NewEntry(l.logger)
 	if r.Time.IsZero() {
 		log = log.WithTime(r.Time)
@@ -109,7 +109,7 @@ func (l *Handler) Handle(ctx context.Context, r slog.Record) error {
 		log = log.WithField(attr.Key, attr.Value)
 		return true
 	})
-	log.Logf(SlogLevelToLogrusLevel(r.Level), r.Message)
+	log.Logf(slogLevelToLogrusLevel(r.Level), r.Message)
 	return nil
 }
 
@@ -123,7 +123,7 @@ func attrsToFields(attrs []slog.Attr) logrus.Fields {
 	return f
 }
 
-func (l *Handler) groupPrefix() string {
+func (l *LogrusHandler) groupPrefix() string {
 	const groupSep = ":"
 	if len(l.groups) > 0 {
 		return strings.Join(l.groups, groupSep) + groupSep
@@ -131,7 +131,7 @@ func (l *Handler) groupPrefix() string {
 	return ""
 }
 
-func (l *Handler) WithAttrs(attrs []slog.Attr) slog.Handler {
+func (l *LogrusHandler) WithAttrs(attrs []slog.Attr) slog.Handler {
 	newHandler := l.clone()
 	for _, a := range attrs {
 		newHandler.attrs = append(newHandler.attrs, slog.Attr{
@@ -142,7 +142,7 @@ func (l *Handler) WithAttrs(attrs []slog.Attr) slog.Handler {
 	return newHandler
 }
 
-func (l *Handler) WithGroup(name string) slog.Handler {
+func (l *LogrusHandler) WithGroup(name string) slog.Handler {
 	newHandler := l.clone()
 	newHandler.groups = append(newHandler.groups, name)
 	return newHandler

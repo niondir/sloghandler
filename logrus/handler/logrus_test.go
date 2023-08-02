@@ -23,7 +23,7 @@ func TestLogrusViaSlog_GroupsAndAttrs(t *testing.T) {
 	//require.NoError(t, err)
 
 	logrusLogger.SetLevel(logrus.InfoLevel)
-	slogger := slog.New(handler.NewHandler(logrusLogger))
+	slogger := slog.New(handler.New(logrusLogger))
 
 	slogger.Info("info")
 	assert.Equal(t, "level=info msg=info\n", outBuf.String())
@@ -46,7 +46,7 @@ func TestLogrusViaSlog_Levels(t *testing.T) {
 	})
 
 	logrusLogger.SetLevel(logrus.InfoLevel)
-	slogger := slog.New(handler.NewHandler(logrusLogger))
+	slogger := slog.New(handler.New(logrusLogger))
 
 	// Logrus Trace (Log everything)
 	logrusLogger.SetLevel(logrus.TraceLevel)
