@@ -6,7 +6,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 	"log/slog"
-	logrusHandler "slogLogrus/logrus"
+	logrusHandler "logrus"
 	"testing"
 )
 

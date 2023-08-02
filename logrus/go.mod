@@ -1,4 +1,4 @@
-module slogLogrus
+module logrus
 
 go 1.21rc4
 
