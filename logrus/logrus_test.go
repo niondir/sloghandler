@@ -3,10 +3,10 @@ package logrus_test
 import (
 	"bytes"
 	"fmt"
+	logrusHandler "github.com/niondir/sloghandler/logrus"
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 	"log/slog"
-	logrusHandler "logrus"
 	"testing"
 )
 
