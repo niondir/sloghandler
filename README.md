@@ -2,7 +2,7 @@
 Handler for go 1.21 slog package
 
 Supported Logging libraries:
-* [Logrus](https://github.com/sirupsen/logrus)
+* [logrus](https://github.com/sirupsen/logrus)
 
 Candidates:
 * [zerolog](https://github.com/rs/zerolog)
