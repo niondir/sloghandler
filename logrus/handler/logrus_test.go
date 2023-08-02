@@ -1,9 +1,9 @@
-package logrus_test
+package handler_test
 
 import (
 	"bytes"
 	"fmt"
-	logrusHandler "github.com/niondir/sloghandler/logrus"
+	"github.com/niondir/sloghandler/logrus/handler"
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 	"log/slog"
@@ -23,7 +23,7 @@ func TestLogrusViaSlog_GroupsAndAttrs(t *testing.T) {
 	//require.NoError(t, err)
 
 	logrusLogger.SetLevel(logrus.InfoLevel)
-	slogger := slog.New(logrusHandler.NewHandler(logrusLogger))
+	slogger := slog.New(handler.NewHandler(logrusLogger))
 
 	slogger.Info("info")
 	assert.Equal(t, "level=info msg=info\n", outBuf.String())
@@ -46,7 +46,7 @@ func TestLogrusViaSlog_Levels(t *testing.T) {
 	})
 
 	logrusLogger.SetLevel(logrus.InfoLevel)
-	slogger := slog.New(logrusHandler.NewHandler(logrusLogger))
+	slogger := slog.New(handler.NewHandler(logrusLogger))
 
 	// Logrus Trace (Log everything)
 	logrusLogger.SetLevel(logrus.TraceLevel)
