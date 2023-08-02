@@ -1,2 +1,14 @@
-# slog-logrus
-Logrus Handler for slog
+# sloghadler
+Handler for go 1.21 slog package
+
+Supported Logging libaries:
+* [Logrus](https://github.com/sirupsen/logrus)
+
+## Usage
+
+```go get github.com/niondir/sloghandler/logrus```
+
+```
+slogger := slog.New(logrusHandler.NewHandler(logrusLogger))
+slogger.Info("hello, Info log")
+```
