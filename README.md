@@ -15,6 +15,6 @@ Please report any issues you find, pull requests for bugfixes and tests are also
 ```
 import "github.com/niondir/sloghandler/logrus/handler"
 
-slogger := slog.New(handler.NewHandler(logrusLogger))
+slogger := handler.New(handler.NewHandler(logrusLogger))
 slogger.Info("hello, Info log")
 ```
