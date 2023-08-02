@@ -1,7 +1,7 @@
-# sloghadler
+# sloghandler
 Handler for go 1.21 slog package
 
-Supported Logging libaries:
+Supported Logging libraries:
 * [Logrus](https://github.com/sirupsen/logrus)
 
 ## Usage
